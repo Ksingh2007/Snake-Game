@@ -22,11 +22,17 @@ var foodY;
 
 var gameOver = false;
 
+//score
+var score = 0;
+var scoreDisplay;
+
+
 window.onload = function(){
     board = document.getElementById("board");
     board.height = rows * blockSize;
     board.width = cols * blockSize;
     context = board.getContext("2d"); //used for drawing on the board
+    scoreDisplay = document.getElementById("score")
 
     placeFood();
     document.addEventListener("keyup", changeDirection);
@@ -56,7 +62,7 @@ function update() {
     // check wall collision
     if (snakeX < 0 || snakeX >= cols * blockSize || snakeY < 0 || snakeY >= rows * blockSize) {
         gameOver = true;
-        alert("Game Over");
+        alert("Game Over! Final Score: " + score);
         return;
     }
 
@@ -64,7 +70,7 @@ function update() {
     for (let i = 0; i < snakeBody.length; i++) {
         if (snakeX == snakeBody[i][0] && snakeY == snakeBody[i][1]) {
             gameOver = true;
-            alert("Game Over");
+            alert("Game Over! Final Score: " + score);
             return;
         }
     }
@@ -72,6 +78,8 @@ function update() {
     // check food
     if (snakeX == foodX && snakeY == foodY) {
         snakeBody.push([snakeX, snakeY]);
+        score++;
+        scoreDisplay.textContent = "Score: " + score;
         placeFood();
     }
 
